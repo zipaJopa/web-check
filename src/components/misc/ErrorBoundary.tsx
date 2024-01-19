@@ -24,7 +24,7 @@ class ErrorBoundary extends Component<Props, State> {
     errorMessage: null
   };
 
-  // Catch errors in any components below and re-render with error message
+  // Error handling logic to show the error message and provide information on raising a ticket.
   public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, errorMessage: error.message };
   }
@@ -35,7 +35,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
-    if (this.state.hasError) {
+    if (this.state.hasError && this.state.errorMessage) {
       return (
         <Card>
           { this.props.title && <Heading color={colors.primary}>{this.props.title}</Heading> }
