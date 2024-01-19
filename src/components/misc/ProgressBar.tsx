@@ -27,7 +27,7 @@ const ProgressBarContainer = styled.div`
 `;
 
 const ProgressBarSegment = styled.div<{ color: string, color2: string, width: number }>`
-  height: 1rem;
+  height: auto;
   display: inline-block;
   width: ${props => props.width}%;
   background: ${props => props.color};
@@ -401,7 +401,7 @@ const ProgressLoader = (props: { loadStatus: LoadingJob[], showModal: (err: Reac
         <ProgressBarSegment 
           color={barColors[state][0]} 
           color2={barColors[state][1]} 
-          title={`${state} (${Math.round(percentages[state])}%)`}
+          title={`${state} (${Math.round(percentages[state])}%)`} onClick={() => showErrorModal(state, percentages[state], isDone)}
           width={percentages[state]}
           key={`progress-bar-${state}`}
         />
