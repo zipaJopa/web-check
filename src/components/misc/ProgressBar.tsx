@@ -26,7 +26,7 @@ const ProgressBarContainer = styled.div`
   overflow: hidden;
 `;
 
-const ProgressBarSegment = styled.div<{ color: string, color2: string, width: number }>`
+const ProgressBarSegment = styled.div<{ color: string, color2: string, width: number, title: string }>`
   height: 1rem;
   display: inline-block;
   width: ${props => props.width}%;
@@ -232,7 +232,7 @@ export const initialJobs = jobNames.map((job: string) => {
   }
 });
 
-export const calculateLoadingStatePercentages = (loadingJobs: LoadingJob[]): Record<LoadingState | string, number> => {
+export const calculateLoadingStatePercentages = (loadingJobs: LoadingJob[]): Record<LoadingState, number> => {
   const totalJobs = loadingJobs.length;
 
   // Initialize count object
