@@ -30,7 +30,7 @@ const messages = [
   'Ah, I see you\'re scanning this site... But alas, this did not cause an infinite recursive loop (this time)',
 ];
 
-const SelfScanMsg = () => {
+const SelfScanMsg: React.FC = () => {
   return (
     <StyledSelfScanMsg>
       <img src="https://i.ibb.co/0tQbCPJ/test2.png" alt="Self-Scan" />
@@ -46,4 +46,4 @@ const SelfScanMsg = () => {
   );
 };
 
-export default SelfScanMsg;
+export default SelfScanMsg
