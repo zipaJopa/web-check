@@ -35,7 +35,7 @@ const HeaderLinkContainer = styled.nav`
 
 const Section = styled(StyledCard)`
   margin-bottom: 2rem;
-  overflow: clip;
+  overflow: hidden;
   max-height: 100%;
   section {
     clear: both;
@@ -108,7 +108,7 @@ const makeAnchor = (title: string): string => {
 const About = (): JSX.Element => {
   return (
     <div>
-    <AboutContainer>
+    <div><AboutContainer>
       <Nav>
         <HeaderLinkContainer>
           <a href="https://github.com/lissy93/web-check"><Button>View on GitHub</Button></a>
