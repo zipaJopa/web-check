@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import colors from 'styles/colors';
-import Card from 'components/Form/Card';
-import Heading from 'components/Form/Heading';
+import styled, { CSSObject } from 'styled-components';
+import { colors } from 'styles/colors';
+import { Card } from 'components/Form/Card';
+import { Heading } from 'components/Form/Heading';
 import { useState, useEffect, ReactNode } from 'react';
 
 
@@ -176,7 +176,11 @@ pre {
 export type LoadingState = 'success' | 'loading' | 'skipped' | 'error' | 'timed-out';
 
 export interface LoadingJob {
-  name: string,
+  name: string;
+  state: LoadingState;
+  error?: string;
+  timeTaken?: number;
+  retry?: () => void;
   state: LoadingState,
   error?: string,
   timeTaken?: number,
@@ -236,7 +240,7 @@ export const calculateLoadingStatePercentages = (loadingJobs: LoadingJob[]): Rec
   const totalJobs = loadingJobs.length;
 
   // Initialize count object
-  const stateCount: Record<LoadingState, number> = {
+  const stateCount: Record<LoadingState | string, number> = {
     'success': 0,
     'loading': 0,
     'skipped': 0,
@@ -282,7 +286,7 @@ const MillisecondCounter = (props: {isDone: boolean}) => {
   return <span>{milliseconds} ms</span>;
 };
 
-const RunningText = (props: { state: LoadingJob[], count: number }): JSX.Element => {
+const RunningText = (props: { state: LoadingJob[], count: number }): ReactNode => {
   const loadingTasksCount = jobNames.length - props.state.filter((val: LoadingJob) => val.state === 'loading').length;
   const isDone = loadingTasksCount >= jobNames.length;
   return (
@@ -293,7 +297,7 @@ const RunningText = (props: { state: LoadingJob[], count: number }): JSX.Element
   );
 };
 
-const SummaryText = (props: { state: LoadingJob[], count: number }): JSX.Element => {
+const SummaryText = (props: { state: LoadingJob[], count: number }): ReactNode => {
   const totalJobs = jobNames.length;
   let failedTasksCount = props.state.filter((val: LoadingJob) => val.state === 'error').length;
   let loadingTasksCount = props.state.filter((val: LoadingJob) => val.state === 'loading').length;
@@ -333,7 +337,7 @@ const SummaryText = (props: { state: LoadingJob[], count: number }): JSX.Element
   );
 };
 
-const ProgressLoader = (props: { loadStatus: LoadingJob[], showModal: (err: ReactNode) => void, showJobDocs: (job: string) => void }): JSX.Element => {
+const ProgressLoader = (props: { loadStatus: LoadingJob[], showModal: (err: ReactNode) => void, showJobDocs: (job: string) => void }): ReactNode => {
   const [ hideLoader, setHideLoader ] = useState<boolean>(false);
   const loadStatus = props.loadStatus;
   const percentages = calculateLoadingStatePercentages(loadStatus);
@@ -350,7 +354,7 @@ const ProgressLoader = (props: { loadStatus: LoadingJob[], showModal: (err: Reac
     return [colorCode, darkerColorCode];
   };
 
-  const barColors: Record<LoadingState | string, [string, string]> = {
+  const barColors: Record<LoadingState, [string, string]> = {
     'success': isDone ? makeBarColor(colors.primary) : makeBarColor(colors.success),
     'loading': makeBarColor(colors.info),
     'skipped': makeBarColor(colors.warning),
